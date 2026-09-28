@@ -1,6 +1,6 @@
 """Analytics module for expense insights."""
 
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 def weekly_trend(expenses):
@@ -13,7 +13,7 @@ def weekly_trend(expenses):
         if key not in weeks:
             weeks[key] = 0
         weeks[key] += exp["amount"]
-    
+
     sorted_weeks = sorted(weeks.items())
     trends = []
     for i in range(1, len(sorted_weeks)):
@@ -33,7 +33,7 @@ def detect_anomalies(expenses, threshold=2.0):
     amounts = [exp["amount"] for exp in expenses]
     mean = statistics.mean(amounts)
     stdev = statistics.stdev(amounts)
-    
+
     anomalies = []
     for exp in expenses:
         if exp["amount"] > mean + threshold * stdev:
@@ -46,7 +46,7 @@ def category_breakdown(expenses):
     totals = Counter()
     for exp in expenses:
         totals[exp["category"]] += exp["amount"]
-    
+
     grand_total = sum(totals.values())
     breakdown = {}
     for cat, amount in totals.items():
@@ -66,7 +66,7 @@ def monthly_budget_check(expenses, budgets):
         if exp_date.month == current_month:
             cat = exp["category"]
             monthly[cat] = monthly.get(cat, 0) + exp["amount"]
-    
+
     alerts = []
     for cat, spent in monthly.items():
         if cat in budgets:
